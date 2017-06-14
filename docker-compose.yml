@@ -1,0 +1,24 @@
+version: '2'
+services:
+    web:
+        build: .
+        volumes:
+          - .:/var/www/little-finger
+          - /var/www/little-finger/node_modules
+        ports:
+            - 3000:3000
+        networks:
+            app:
+                aliases:
+                    - little-finger.dev
+    nginx:
+        image: nginx:alpine
+        volumes:
+            - "./env/nginx/littlefinger.conf:/etc/nginx/conf.d/littlefinger.conf:ro"
+        ports:
+            - 80:80
+        networks:
+            - app
+
+networks:
+    app:
